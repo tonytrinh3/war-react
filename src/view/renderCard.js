@@ -1,17 +1,25 @@
 import React from "react";
 
-function renderCard(card,playerNumber){
+const RenderCard = (props) => {
+    // console.log(props.card.image);
+    // const image = props.card.image;
+    // const code = props.card.code;
+
+    const images = props.cards.map((card)=>{
+        return <img className = {"card--" + props.playerNumber} src ={card.image} alt = {card.code}/>
+    })
+    
     return (
         
-
-        <img className = {"card--" + playerNumber} src={card.image} alt= {card.code} />
-       
+        <div>
+        {images}
+        </div>
     )
     
 
 }
 
-export default renderCard;
+export default RenderCard;
 
 // const renderCard = (card, playerNumber) =>{
             
