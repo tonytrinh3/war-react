@@ -9,8 +9,13 @@ class App extends React.Component{
       playerOneDeck: [],
       playerTwoDeck: [],
       playerOnePile: [],
-      playerTwoPile: []
-    }
+      playerTwoPile: [],
+      playerOneCurrentCard:[],
+      playerTwoCurrentCard:[]
+    };
+    //this binding is necessary to make "this" work in the callback function
+    this.changeCard = this.changeCard.bind(this);
+
   }
 
   //componentDidMount is where you fetch the data
@@ -30,27 +35,71 @@ class App extends React.Component{
         playerTwoDeck: playerTwo.cards
       });
   
-      console.log(this.state.playerOneDeck[0].image);
-  
 
     } catch(error){
       alert(error);
-
     }
-
+    console.log(this.state.playerOneDeck[1]);
   }
 
 
+
+  renRen(){
+    // const playerOneCard = this.state.playerOneDeck.slice(1);
+    console.log(this.state.playerOneDeck);
+
+    this.setState({
+      playerOneCurrentCard: this.state.playerOneDeck[0],
+      playerTwoCurrentCard: this.state.playerTwoDeck[0],
+    });
+
+    // console.log(playerOneCurrentCard);
+
+    return (
+      <div>
+        <RenderCard cards = {this.state.playerOneDeck} playerNumber = {1}/>
+        <RenderCard cards = {this.state.playerTwoDeck} playerNumber = {2}/>
+      </div>
+    )
+  }
+
+    //it seems like button is just trigger logic to render things or not 
+    //im just thinking that the button should only be used to switch a logic to show and hide things..
+    changeCard(){
+      console.log("button clicked");
+      console.log(this.state.playerOneDeck[0].image);
+
+      
+      
+      
+    
+    };
+
+    renderThis(){
+   
+      //so when fetching api, you need a conditional to render this if only the state has been updated, which takes a while since you are updating it after componentDidUpdate and not in componenWillUpdate
+    if(this.state.playerOneDeck.length > 0){
+      return (
+      <div>
+        <RenderCard cards = {this.state.playerOneDeck} playerNumber = {1}/>
+        <RenderCard cards = {this.state.playerTwoDeck} playerNumber = {2}/>
+      </div>
+      )
+    }
+  }
 
 
   render(){
     return (
       <div>
-        found: {this.state.playerOneDeck.length} found
-    
+      <h1>awef</h1>
+      {this.renderThis()}
 
-      <RenderCard cards = {this.state.playerOneDeck} playerNumber = {1}/>
+
+
+      <button onClick = {this.changeCard} >Time to War</button>
       </div>
+
     )
   }
 

@@ -1,18 +1,19 @@
 import React from "react";
 
 const RenderCard = (props) => {
-    // console.log(props.card.image);
+    console.log(props.cards);
     // const image = props.card.image;
     // const code = props.card.code;
 
-    const images = props.cards.map((card)=>{
-        return <img className = {"card--" + props.playerNumber} src ={card.image} alt = {card.code}/>
-    })
+    // const images = props.cards.map((card)=>{
+    //     return <img className = {"card--" + props.playerNumber} src ={card.image} alt = {card.code} key = {card.code}/>
+    // });
     
     return (
         
         <div>
-        {images}
+            {/* {images} */}
+            <img className = {"card--" + props.playerNumber} src ={props.cards[1].image} alt = {props.cards[1].code} key = {props.cards[1].code}/>
         </div>
     )
     
