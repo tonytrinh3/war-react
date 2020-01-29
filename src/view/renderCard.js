@@ -13,7 +13,7 @@ const RenderCard = (props) => {
         
         <div>
             {/* {images} */}
-            <img className = {"card--" + props.playerNumber} src ={props.cards[0].image} alt = {props.cards[0].code} key = {props.cards[0].code}/>
+            <img className = {"card--" + props.playerNumber} src ={props.cards.image} alt = {props.cards.code} key = {props.cards.code}/>
         </div>
     )
     

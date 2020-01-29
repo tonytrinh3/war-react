@@ -1,6 +1,6 @@
 import React from 'react';
-import RenderCard from "./view/RenderCard";
-import SearchBar from "./SearchBar";
+import RenderCard from './view/RenderCard';
+
 
 class App extends React.Component{
   constructor(props){
@@ -14,8 +14,9 @@ class App extends React.Component{
       playerOneCurrentCard:[],
       playerTwoCurrentCard:[]
     };
+
     //this binding is necessary to make "this" work in the callback function
-    this.changeCard = this.changeCard.bind(this);
+    // this.changeCard = this.changeCard.bind(this);
     //this.onSearchSubmit = this.onSearchSubmit.bind(this);
 
   }
@@ -39,12 +40,7 @@ class App extends React.Component{
   };
     
 
-  onSearchSubmit = (term) => {
-    console.log(term);
-    //you then put the term into the api param: {query: term}
 
-    //this.setState({images: response.data.results});
-  }
 
   //componentDidMount is where you fetch the data
   async componentDidMount (){
@@ -60,20 +56,24 @@ class App extends React.Component{
       this.setState({
         deck_id: data.deck_id,
         playerOneDeck: playerOne.cards,
-        playerTwoDeck: playerTwo.cards
+        playerTwoDeck: playerTwo.cards,
+        playerOneCurrentCard: playerOne.cards[0],
+        playerTwoCurrentCard: playerTwo.cards[0],
       });
+
+     
   
 
     } catch(error){
       alert(error);
     }
-    console.log(this.state.playerOneDeck[1]);
+    
   }
 
     //it seems like button is just trigger logic to render things or not 
     //im just thinking that the button should only be used to switch a logic to show and hide things..
     //this could technically be a separate component - the button 
-    changeCard(){
+    changeCard=()=>{
       console.log("button clicked");
       console.log(this.state.playerOneDeck[0].image);
     };
@@ -82,13 +82,13 @@ class App extends React.Component{
       //all logic of what to render could be done in the rendercard but that doesn't separate Model view controller 
 
 
-    renderThis(){
+    renderThis(playerOneCard, playerTwoCard){
       //so when fetching api, you need a conditional to render this if only the state has been updated, which takes a while since you are updating it after componentDidUpdate and not in componenWillUpdate
-      if(this.state.playerOneDeck.length > 0){
+      if(this.state.playerOneCurrentCard){
         return (
         <div>
-          <RenderCard cards = {this.state.playerOneDeck} playerNumber = {1}/>
-          <RenderCard cards = {this.state.playerTwoDeck} playerNumber = {2}/>
+          <RenderCard cards = {playerOneCard} playerNumber = {1}/>
+          <RenderCard cards = {playerTwoCard} playerNumber = {2}/>
         </div>
         )
       }
@@ -99,12 +99,13 @@ class App extends React.Component{
     // you basically are passing a function down to this.props.onSubmit
 
   render(){
+    
     return (
       <div>
       <h1>awef</h1>
-      {this.renderThis()}
+      {this.renderThis(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard)}
       <button onClick = {this.changeCard} >Time to War</button>
-      <SearchBar onSubmit = {this.onSearchSubmit}/>
+      
       </div>
 
     )

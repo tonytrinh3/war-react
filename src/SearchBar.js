@@ -1,5 +1,7 @@
 import React from "react";
 
+{/* <SearchBar onSubmit = {this.onSearchSubmit}/> */}
+
 class SearchBar extends React.Component{
 
     state = {term: ''};
