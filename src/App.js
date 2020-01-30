@@ -33,9 +33,9 @@ class App extends React.Component{
     
   
       //this is an array of 5 
-      const playerOne = await(await fetch(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=${52/2}`)).json();
-      const playerTwo= await(await fetch(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=${52/2}`)).json();
-  
+      const playerOne = await(await fetch(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=${20/2}`)).json();
+      const playerTwo= await(await fetch(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=${20/2}`)).json();
+
       this.setState({
         deck_id: data.deck_id,
         playerOneDeck: playerOne.cards,
@@ -72,33 +72,142 @@ class App extends React.Component{
     //im just thinking that the button should only be used to switch a logic to show and hide things..
     //this could technically be a separate component - the button 
     changeCard=()=>{
-      console.log("button clicked");
+    
       this.compareCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard);
     };
 
     compareCards = (playerOneCard,playerTwoCard) => {
 
-      const cardPot = [];
+      let cardPot = [];
       cardPot.push(playerOneCard,playerTwoCard);
 
-      if (this.cardNumber(playerOneCard) > this.cardNumber(playerTwoCard)){
-        this.state.playerOnePile = this.state.playerOnePile.concat(cardPot);//add card won onto pile for future use in deck api
-        this.state.playerOneDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
-        this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player two deck bc they lost
-      } else if (this.cardNumber(playerTwoCard) > this.cardNumber(playerOneCard)){
-        this.state.playerTwoPile = this.state.playerTwoPile.concat(cardPot);//add card won onto pile for future use in deck api
-        this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
-        this.state.playerOneDeck.splice(0,cardPot.length/2);
-      } 
+      // console.log(this.state.playerOneCurrentCard);  
 
-        // console.log(this.state.playerOneDeck);
-      this.setState({
-        playerOneCurrentCard: this.state.playerOneDeck[0],
-        playerTwoCurrentCard: this.state.playerTwoDeck[0]
-      });
+        if (this.cardNumber(playerOneCard) > this.cardNumber(playerTwoCard)){
 
-      this.renderCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard);
+
+          
+        this.state.playerOnePile.concat(cardPot);//add card won onto pile for future use in deck api
+         this.state.playerOneDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
+         this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player two deck bc they lost
+ 
+          
+
+         this.setState({
+          playerOneCurrentCard: this.state.playerOneDeck[0],
+          playerTwoCurrentCard: this.state.playerTwoDeck[0]
+        });
+        
+        this.renderCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard);
+   
+          
+
+  
+  
+  
+        } else if (this.cardNumber(playerTwoCard) > this.cardNumber(playerOneCard)){
+  
+
+
+            
+         
+         this.state.playerTwoPile.concat(cardPot);//add card won onto pile for future use in deck api
+          this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
+          this.state.playerOneDeck.splice(0,cardPot.length/2)
+
+         
+  
+  
+
+          this.setState({
+            playerOneCurrentCard: this.state.playerOneDeck[0],
+            playerTwoCurrentCard: this.state.playerTwoDeck[0]
+          });
+          
+          this.renderCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard);
+     
+          
+
+  
+          
+        } 
+        
+        else if (this.cardNumber(playerOneCard) === this.cardNumber(playerTwoCard)){
+          let odd = 1;
+          let even = 2;
+
+          
+          cardPot.push(this.state.playerOneDeck[odd],this.state.playerTwoDeck[odd],this.state.playerOneDeck[even],this.state.playerTwoDeck[even]);
+
+          console.log(cardPot);
+          // setTimeout(()=>{  
+          //   this.renderCards(this.state.playerOneDeck[odd], this.state.playerTwoDeck[odd]);
+          // },1000);
+
+          // setTimeout(()=>{  
+          //   this.renderCards(this.state.playerOneDeck[even], this.state.playerTwoDeck[even]);
+          // },1000);
+
+          this.setState({
+            playerOneCurrentCard: this.state.playerOneDeck[even],
+            playerTwoCurrentCard: this.state.playerTwoDeck[even]
+          });
+         
+          
+          odd++;
+          even++;
+
+
+
+
+          this.compareCards(this.state.playerOneCurrentCard,this.state.playerTwoCurrentCard);
+        }
+
+
+  
+
+
   };
+
+
+
+
+//   equalCardDuel = (cardPot,playerOneCard,playerTwoCard) =>{
+//     let card1 = this.cardNumber(playerOneCard);
+//     let card2 = this.cardNumber(playerTwoCard);
+//     let odd = 1;
+//     let even = 2
+
+//     while(card1 === card2){
+     
+//         cardPot.push(this.state.playerOneDeck[odd].code,this.state.playerTwoDeck[odd].code);
+//         //cardPot.push(state.playerOneDeck[odd],state.playerTwoDeck[odd]);
+
+ 
+//         cardPot.push(this.state.playerOneDeck[even].code,this.state.playerTwoDeck[even].code);
+//         //cardPot.push(state.playerOneDeck[even],state.playerTwoDeck[even]);
+
+//         if (this.cardNumber(this.state.playerOneDeck[even].code) > this.cardNumber(this.state.playerTwoDeck[even].code)){
+//           this.state.playerOnePile = this.state.playerOnePile.concat(cardPot);//add card won onto pile for future use in deck api
+//             //state.playerOneDeck = state.playerOneDeck.concat(cardPot);//add card won onto pile for future use in deck api
+//             this.state.playerOneDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
+//             this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player two deck bc they lost
+//             break
+//         } else if (this.cardNumber(this.state.playerTwoDeck[even].code) > this.cardNumber(this.state.playerOneDeck[even].code)){
+//           this.state.playerTwoPile = this.state.playerTwoPile.concat(cardPot);//add card won onto pile for future use in deck api
+//             //state.playerTwoDeck = state.playerTwoDeck.concat(cardPot);//add card won onto pile for future use in deck api
+//             this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
+//             this.state.playerOneDeck.splice(0,cardPot.length/2);
+//             break
+//         } else if (this.cardNumber(this.state.playerOneDeck[even].code) === this.cardNumber(this.state.playerTwoDeck[even].code)){
+//             card1 = this.cardNumber(this.state.playerOneDeck[even].code); 
+//             card2 = this.cardNumber(this.state.playerTwoDeck[even].code);
+//             odd = odd + 2;
+//             even = even + 2;
+//         }
+//     }
+    
+// }
 
       //im starting to think you just pass what card to render to the rendercard
       //all logic of what to render could be done in the rendercard but that doesn't separate Model view controller 
