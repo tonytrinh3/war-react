@@ -1,7 +1,7 @@
 import React from "react";
 
-const RenderCard = (props) => {
-    console.log(props.cards);
+const Card = (props) => {
+    // console.log(props.cards);
     // const image = props.card.image;
     // const code = props.card.code;
 
@@ -20,7 +20,7 @@ const RenderCard = (props) => {
 
 }
 
-export default RenderCard;
+export default Card;
 
 // const renderCard = (card, playerNumber) =>{
             

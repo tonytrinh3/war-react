@@ -1,5 +1,5 @@
 import React from 'react';
-import RenderCard from './view/RenderCard';
+import Card from './view/Card';
 
 
 class App extends React.Component{
@@ -11,8 +11,8 @@ class App extends React.Component{
       playerTwoDeck: [],
       playerOnePile: [],
       playerTwoPile: [],
-      playerOneCurrentCard:[],
-      playerTwoCurrentCard:[]
+      playerOneCurrentCard:null,
+      playerTwoCurrentCard:null
     };
 
     //this binding is necessary to make "this" work in the callback function
@@ -21,23 +21,6 @@ class App extends React.Component{
 
   }
 
-  cardNumber = (cardCode) =>{
-    const splitCardCode= cardCode.split("");
-    const cardNumTemp= splitCardCode[0];
-    if (cardNumTemp === "A"){
-        return 14;
-    } else if (cardNumTemp === "K"){
-        return 13;
-    } else if (cardNumTemp === "Q"){
-        return 12;
-    } else if (cardNumTemp === "J"){
-        return 11;
-    } else if (cardNumTemp === "0"){
-        return 10;
-    } else {
-        return cardNumTemp;
-    }              
-  };
     
 
 
@@ -61,34 +44,73 @@ class App extends React.Component{
         playerTwoCurrentCard: playerTwo.cards[0],
       });
 
-     
-  
-
     } catch(error){
       alert(error);
     }
     
-  }
+  };
+  
+  cardNumber = (playerCard) =>{
+    const splitCardCode= playerCard.code.split("");
+    const cardNumTemp= splitCardCode[0];
+    if (cardNumTemp === "A"){
+        return 14;
+    } else if (cardNumTemp === "K"){
+        return 13;
+    } else if (cardNumTemp === "Q"){
+        return 12;
+    } else if (cardNumTemp === "J"){
+        return 11;
+    } else if (cardNumTemp === "0"){
+        return 10;
+    } else {
+        return cardNumTemp;
+    }              
+  };
 
     //it seems like button is just trigger logic to render things or not 
     //im just thinking that the button should only be used to switch a logic to show and hide things..
     //this could technically be a separate component - the button 
     changeCard=()=>{
       console.log("button clicked");
-      console.log(this.state.playerOneDeck[0].image);
+      this.compareCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard);
     };
+
+    compareCards = (playerOneCard,playerTwoCard) => {
+
+      const cardPot = [];
+      cardPot.push(playerOneCard,playerTwoCard);
+
+      if (this.cardNumber(playerOneCard) > this.cardNumber(playerTwoCard)){
+        this.state.playerOnePile = this.state.playerOnePile.concat(cardPot);//add card won onto pile for future use in deck api
+        this.state.playerOneDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
+        this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player two deck bc they lost
+      } else if (this.cardNumber(playerTwoCard) > this.cardNumber(playerOneCard)){
+        this.state.playerTwoPile = this.state.playerTwoPile.concat(cardPot);//add card won onto pile for future use in deck api
+        this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
+        this.state.playerOneDeck.splice(0,cardPot.length/2);
+      } 
+
+        // console.log(this.state.playerOneDeck);
+      this.setState({
+        playerOneCurrentCard: this.state.playerOneDeck[0],
+        playerTwoCurrentCard: this.state.playerTwoDeck[0]
+      });
+
+      this.renderCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard);
+  };
 
       //im starting to think you just pass what card to render to the rendercard
       //all logic of what to render could be done in the rendercard but that doesn't separate Model view controller 
 
 
-    renderThis(playerOneCard, playerTwoCard){
+    renderCards=(playerOneCard, playerTwoCard)=>{
       //so when fetching api, you need a conditional to render this if only the state has been updated, which takes a while since you are updating it after componentDidUpdate and not in componenWillUpdate
       if(this.state.playerOneCurrentCard){
         return (
         <div>
-          <RenderCard cards = {playerOneCard} playerNumber = {1}/>
-          <RenderCard cards = {playerTwoCard} playerNumber = {2}/>
+          <Card cards = {playerOneCard} playerNumber = {1}/>
+          <Card cards = {playerTwoCard} playerNumber = {2}/>
         </div>
         )
       }
@@ -102,8 +124,8 @@ class App extends React.Component{
     
     return (
       <div>
-      <h1>awef</h1>
-      {this.renderThis(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard)}
+      <h1>War</h1>
+      {this.renderCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard)}
       <button onClick = {this.changeCard} >Time to War</button>
       
       </div>
