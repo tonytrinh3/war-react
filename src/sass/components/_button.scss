@@ -1,0 +1,22 @@
+.btn{
+    &,
+    &:link,
+    &:visited {
+        background-color: green;
+        color: white;
+        border: none;
+        border-radius: 0;
+        font-weight: 700;
+        font-size: 2rem;
+        padding: 1rem 0;
+        text-decoration: none;
+        text-align: center;
+       
+    }
+}
+
+.btn:hover{
+    background-color:limegreen;
+    cursor: pointer;
+}
+

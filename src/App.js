@@ -1,6 +1,8 @@
 import React from 'react';
 import Card from './view/Card';
 
+import './sass/main.scss';
+
 
 class App extends React.Component{
   constructor(props){
@@ -27,7 +29,7 @@ class App extends React.Component{
       const result = await fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1');
       const data = await result.json();
 
-      const deckSize = 20;
+      const deckSize = 52;
     
   
       //this is an array of 5 
@@ -231,10 +233,6 @@ class App extends React.Component{
     }
   };
 
-
-
-  
-
       //im starting to think you just pass what card to render to the rendercard
       //all logic of what to render could be done in the rendercard but that doesn't separate Model view controller 
 
@@ -243,7 +241,7 @@ class App extends React.Component{
     //so when fetching api, you need a conditional to render this if only the state has been updated, which takes a while since you are updating it after componentDidUpdate and not in componenWillUpdate
     if(this.state.playerOneCurrentCard){
       return (
-      <div>
+      <div className = "playing-cards">
         <Card cards = {playerOneCard} playerNumber = {1}/>
         <Card cards = {playerTwoCard} playerNumber = {2}/>
       </div>
@@ -255,10 +253,15 @@ class App extends React.Component{
   render(){
     
     return (
-      <div>
-      <h1>War</h1>
-      {this.renderCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard)}
-      <button onClick = {this.changeCard} >Time to War</button>
+      <div className = "container">
+        <h1>War</h1>
+        <div className = "playing-area">
+          {this.renderCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard)}
+          <button className = "btn war-button" onClick = {this.changeCard} >Time to War</button>
+        </div>
+       
+
+      
       
       </div>
 

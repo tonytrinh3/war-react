@@ -1,0 +1,27 @@
+*,
+*::after,
+*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+     /* you can force inheritance with inherit keyword - it is better in css community
+  to put box sizing in the body instead of up here */
+  /* change box model so that borders and paddings are no longer added to the total width or total height that we specify for a box. so we are getting rid of that behavior */
+}
+
+html{
+    font-size: 62.5%;//10px/16px = 62.5% -> 1rem = 10px
+}
+
+body{
+    box-sizing: border-box;
+    font-size: $default-font-size;
+}
+
+.container{
+    display: grid;
+    
+    grid-template-rows: min-content min-content min-content min-content min-content min-content;
+
+    grid-template-columns:$grid-column;
+}

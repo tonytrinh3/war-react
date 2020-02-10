@@ -1,5 +1,7 @@
 import React from "react";
 
+import '../sass/main.scss';
+
 const Card = (props) => {
     // console.log(props.cards);
     // const image = props.card.image;
@@ -9,13 +11,8 @@ const Card = (props) => {
     //     return <img className = {"card--" + props.playerNumber} src ={card.image} alt = {card.code} key = {card.code}/>
     // });
     
-    return (
-        
-        <div>
-            {/* {images} */}
-            <img className = {"card--" + props.playerNumber} src ={props.cards.image} alt = {props.cards.code} key = {props.cards.code}/>
-        </div>
-    )
+    return <img className = {"playing-card playing-card--" + props.playerNumber} src ={props.cards.image} alt = {props.cards.code} key = {props.cards.code}/>
+
     
 
 }
