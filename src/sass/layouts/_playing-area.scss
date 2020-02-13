@@ -1,19 +1,19 @@
 .playing-area{
-    grid-column: center-start/col-end 6;
+    grid-column: center-start/center-end;
 
     display: grid;
     grid-template-columns: repeat(6,1fr);
     grid-template-rows: repeat(6,1fr);
     height: 80vh;
     margin: 3rem;
-    background-color: blue;
+    background-color: rgb(93, 64, 55);
     
 }
 
 .playing-cards {
     grid-column:3/4;
     grid-row: 1/7;
-    background-color: red;
+    // background-color: red;
     padding: 3rem;
 }
 
@@ -32,10 +32,17 @@
 
 
 .war-button{
-
+    background-color:rgb(56, 142, 60);
     grid-column: 5/6;
     grid-row: 4/5;
     height: 10rem;
     width: 20rem;
 
+    &:hover{
+        background-color:rgb(104, 159, 56);
+
+        cursor: pointer;
+    }
+
 }
+
