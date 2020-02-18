@@ -16,6 +16,7 @@ class App extends React.Component{
       playerOneCurrentCard:null,
       playerTwoCurrentCard:null,
       winnerToken: 0,
+      renderCardArray:[]
     };
 
     //this binding is necessary to make "this" work in the callback function
@@ -45,6 +46,9 @@ class App extends React.Component{
         playerTwoCurrentCard: playerTwo.cards[0],
       });
 
+      console.log(this.state.playerOneDeck);
+      console.log(this.state.playerTwoDeck);
+
     } catch(error){
       alert(error);
     }
@@ -72,13 +76,6 @@ class App extends React.Component{
     //it seems like button is just trigger logic to render things or not 
     //im just thinking that the button should only be used to switch a logic to show and hide things..
     //this could technically be a separate component - the button 
-  changeCard=()=>{
-    //only trigger this button when the api has pulled the cards
-    if(this.state.playerOneCurrentCard){
-    this.compareCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard);
-
-    }
-  };
 
   
 
@@ -92,133 +89,46 @@ class App extends React.Component{
     if (this.cardNumber(playerOneCurrentCard) > this.cardNumber(playerTwoCurrentCard)){
 
       this.setState({
+      
+        playerOnePile: this.state.playerOnePile.concat(cardPot),//add card won onto pile for future use in deck api
+        playerOneCurrentCard: this.state.playerOneDeck[0],
+        playerTwoCurrentCard: this.state.playerTwoDeck[0],
         winnerToken: 1,
-        playerOnePile: this.state.playerOnePile.concat(cardPot)//add card won onto pile for future use in deck api
+        renderCardArray: this.state.renderCardArray.concat(cardPot)
       });
+   this.state.playerOneDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
+     this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player two deck bc they lost
 
-     console.log(this.state.winnerToken);
+     
+      
+      return this.renderCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard);
+    } else if (this.cardNumber(playerTwoCurrentCard) > this.cardNumber(playerOneCurrentCard)){
+
+
+      this.setState({
+    
+        playerTwoPile: this.state.playerTwoPile.concat(cardPot),//add card won onto pile for future use in deck api
+        playerOneCurrentCard: this.state.playerOneDeck[0],
+        playerTwoCurrentCard: this.state.playerTwoDeck[0],
+        winnerToken: 2,
+        renderCardArray: this.state.renderCardArray.concat(cardPot)
+      });
 
       this.state.playerOneDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
       this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player two deck bc they lost
 
-      this.setState({
-        playerOneCurrentCard: this.state.playerOneDeck[0],
-        playerTwoCurrentCard: this.state.playerTwoDeck[0]
-
-      });
       
-      cardPot = [];
       
-      return this.renderCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard);
-    } else if (this.cardNumber(playerTwoCurrentCard) > this.cardNumber(playerOneCurrentCard)){
-      this.setState({
-        winnerToken: 2,
-        playerTwoPile: this.state.playerTwoPile.concat(cardPot)//add card won onto pile for future use in deck api
-      });
-
-      console.log(this.state.winnerToken);
-
-
-      this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
-      this.state.playerOneDeck.splice(0,cardPot.length/2)
-
-      this.setState({
-        playerOneCurrentCard: this.state.playerOneDeck[0],
-        playerTwoCurrentCard: this.state.playerTwoDeck[0]
-      });
-      
-      cardPot = []; 
       
 
      return this.renderCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard);
 
     } 
     else if (this.cardNumber(playerOneCurrentCard) === this.cardNumber(playerTwoCurrentCard)){
-        //deal with end case where you have less then 3 cards but happen to draw same card on card number 2
-        if (this.state.playerOneDeck.length + this.state.playerOnePile.length < 3){
-        //     let style = document.createElement('style');
-        //     style.innerHTML = `
-        //     .winner h1{
-        //         display:block;
-        //     }
-        // `;
-        // document.head.appendChild(style);
-        // document.querySelector(".war__button").disabled = true;
-        // document.querySelector('.winner__header').innerHTML = "Player Two won!"
-            //deal with end case where you have less then 3 cards but happen to draw same card on card number 2
-        } else if (this.state.playerTwoDeck.length + this.state.playerTwoPile.length < 3) {
-            // let style = document.createElement('style');
-            // style.innerHTML = `
-            //     .winner h1{
-            //         display:block;
-            //     }
-            // `;
-            // document.head.appendChild(style);
-            // document.querySelector(".war__button").disabled = true;
-            // document.querySelector('.winner__header').innerHTML = "Player One won!" 
-        //edge case when you happen to draw equal card on card number 1 but don't have enough card in deck but enough in pile
-        } else if (this.state.playerOneDeck.length < 3 && this.state.playerOnePile.length > 3) {
-  
-            document.querySelector(`.war__button`).disabled = true;
-  
-            const playerOneDeck = 'playerOneDeck';
-  
-            const piles = await( await fetch(`https://deckofcardsapi.com/api/deck/${this.state.deck_id}/pile/${playerOneDeck}/add/?cards=${this.state.playerOnePile.toString()}`) ).json();
-            const pilesShuffle = await(await fetch(`https://deckofcardsapi.com/api/deck/${this.state.deck_id}/pile/${playerOneDeck}/shuffle/`)).json();
-  
-            const pilesList = await(await fetch(`https://deckofcardsapi.com/api/deck/${this.state.deck_id}/pile/${playerOneDeck}/list/`)).json();
-            console.log(pilesList);
-            const pilesDraw = await(await fetch(`https://deckofcardsapi.com/api/deck/${this.state.deck_id}/pile/${playerOneDeck}/draw/?count=${this.state.playerOnePile.length }`)).json();
-            console.log(pilesDraw);
 
-            this.setState({
-              playerOneDeck:this.state.playerOneDeck.concat(pilesDraw.cards),
-              playerOnePile:[]
-            });
-       
-  
-            //  state.playerOneDeck = [...state.playerOneDeck, ...pilesDraw.cards]
-         
-            console.log(this.state.playerOneDeck);
-            console.log(this.state.playerOnePile);
-  
-            // document.querySelector(`.war__button`).disabled = false;
-  
             this.equalCardDuel(cardPot);
-  
-  
-        } else if(this.state.playerTwoDeck.length < 3 && this.state.playerTwoPile.length > 3) {
-  
-            // document.querySelector(`.war__button`).disabled = true;
-            const playerTwoDeck = 'playerTwoDeck';
-            const piles = await(await fetch(`https://deckofcardsapi.com/api/deck/${this.state.deck_id}/pile/${playerTwoDeck}/add/?cards=${this.state.playerTwoPile.toString()}`)).json();
-  
-            const pilesShuffle = await(await fetch(`https://deckofcardsapi.com/api/deck/${this.state.deck_id}/pile/${playerTwoDeck}/shuffle/`)).json();
-  
-            const pilesList = await(await fetch(`https://deckofcardsapi.com/api/deck/${this.state.deck_id}/pile/${playerTwoDeck}/list/`)).json();
-            console.log(pilesList);
-            const pilesDraw = await(await fetch(`https://deckofcardsapi.com/api/deck/${this.state.deck_id}/pile/${playerTwoDeck}/draw/?count=${this.state.playerTwoPile.length}`)).json();
-            console.log(pilesDraw);
-         
-
-            this.setState({
-              playerTwoDeck:this.state.playerOneDeck.concat(pilesDraw.cards),
-              playerTwoPile:[]
-            });
-  
-            // state.playerTwoDeck = [...state.playerTwoDeck, ...pilesDraw.cards];
-
-  
-            console.log(this.state.playerTwoDeck);
-            console.log(this.state.playerTwoPile);
-  
-            document.querySelector(`.war__button`).disabled = false;
-  
-            this.equalCardDuel(cardPot);
-
-        } else {
-            this.equalCardDuel(cardPot);
-        }
+            return this.renderCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard);
+        
     }
   
   
@@ -226,44 +136,59 @@ class App extends React.Component{
 
 
   equalCardDuel = (cardPot) => {
-      let card1 = this.cardNumber(this.state.playerOneCurrentCard.code) ;
-      let card2 = this.cardNumber(this.state.playerTwoCurrentCard.code);
-      let odd = 1;
+      let card1 = this.cardNumber(this.state.playerOneCurrentCard) ;
+      let card2 = this.cardNumber(this.state.playerTwoCurrentCard);
+      let burnCardInd = 1;
       let even =2;
-
 
       while(card1 === card2){
 
-        cardPot.push(this.state.playerOneDeck[odd].code,this.state.playerTwoDeck[odd].code);
+        cardPot.push(this.state.playerOneDeck[burnCardInd],this.state.playerTwoDeck[burnCardInd]);
+        cardPot.push(this.state.playerOneDeck[even],this.state.playerTwoDeck[even]);
+
+        console.log(this.state.playerOneDeck);
+        console.log(this.state.playerTwoDeck);
+        if (this.cardNumber(this.state.playerOneDeck[even]) > this.cardNumber(this.state.playerTwoDeck[even])){
+
+          this.setState({
+            playerOnePile: this.state.playerOnePile.concat(cardPot),//add card won onto pile for future use in deck api
+            playerOneCurrentCard: this.state.playerOneDeck[even],
+            playerTwoCurrentCard: this.state.playerTwoDeck[even],
+            winnerToken: 1
+          });
+
+          this.state.playerOneDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
+          this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player two deck bc they lost
+
+            console.log(this.state.playerOneDeck[even]);
+            console.log(this.state.playerTwoDeck[even]);
+            console.log(cardPot);
+            cardPot = []; 
 
 
+            break
+        } else if (this.cardNumber(this.state.playerTwoDeck[even]) > this.cardNumber(this.state.playerOneDeck[even])){
 
-        cardPot.push(this.state.playerOneDeck[even].code,this.state.playerTwoDeck[even].code);
+            this.setState({
+              playerTwoPile: this.state.playerTwoPile.concat(cardPot),//add card won onto pile for future use in deck api
+              playerOneCurrentCard: this.state.playerOneDeck[even],
+              playerTwoCurrentCard: this.state.playerTwoDeck[even],
+              winnerToken: 2
+            });
 
-
-        if (this.cardNumber(this.state.playerOneDeck[even].code) > this.cardNumber(this.state.playerTwoDeck[even].code)){
-            this.state.playerOnePile.concat(cardPot);//add card won onto pile for future use in deck api
-            //state.playerOneDeck = state.playerOneDeck.concat(cardPot);//add card won onto pile for future use in deck api
-            
             this.state.playerOneDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
             this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player two deck bc they lost
-            
 
-
-            break
-        } else if (this.cardNumber(this.state.playerTwoDeck[even].code) > this.cardNumber(this.state.playerOneDeck[even].code)){
-            this.state.playerTwoPile.concat(cardPot);//add card won onto pile for future use in deck api
-
-            //state.playerTwoDeck = state.playerTwoDeck.concat(cardPot);//add card won onto pile for future use in deck api
-
-            this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
-            this.state.playerOneDeck.splice(0,cardPot.length/2);
+            console.log(this.state.playerOneDeck[even]);
+            console.log(this.state.playerTwoDeck[even]);
+            console.log(cardPot);
+            cardPot = []; 
 
             break
-        } else if (this.cardNumber(this.state.playerOneDeck[even].code) === this.cardNumber(this.state.playerTwoDeck[even].code)){
-            card1 = this.cardNumber(this.state.playerOneDeck[even].code); 
-            card2 = this.cardNumber(this.state.playerTwoDeck[even].code);
-            odd = odd + 2;
+        } else if (this.cardNumber(this.state.playerOneDeck[even]) === this.cardNumber(this.state.playerTwoDeck[even])){
+            card1 = this.cardNumber(this.state.playerOneDeck[even]); 
+            card2 = this.cardNumber(this.state.playerTwoDeck[even]);
+            burnCardInd = burnCardInd + 2;
             even = even + 2;
         }
       }
@@ -271,60 +196,16 @@ class App extends React.Component{
   }
 
 
-//         const pileToDeck = async () => {
-//             if (state.playerOneDeck.length === 0){
-
-//                 document.querySelector(`.war__button`).disabled = true;
-
-//                 const playerOneDeck = 'playerOneDeck';
-
-//                 const piles = await( await fetch(`https://deckofcardsapi.com/api/deck/${state.deck_id}/pile/${playerOneDeck}/add/?cards=${state.playerOnePile.toString()}`) ).json();
-//                 const pilesShuffle = await(await fetch(`https://deckofcardsapi.com/api/deck/${state.deck_id}/pile/${playerOneDeck}/shuffle/`)).json();
-              
-//                 const pilesList = await(await fetch(`https://deckofcardsapi.com/api/deck/${state.deck_id}/pile/${playerOneDeck}/list/`)).json();
-//                console.log(pilesList);
-//                const pilesDraw = await(await fetch(`https://deckofcardsapi.com/api/deck/${state.deck_id}/pile/${playerOneDeck}/draw/?count=${state.playerOnePile.length }`)).json();
-//                 console.log(pilesDraw);
-//                 state.playerOneDeck = state.playerOneDeck.concat(pilesDraw.cards);
-
-//                 //  state.playerOneDeck = [...state.playerOneDeck, ...pilesDraw.cards]
-//                 state.playerOnePile=[];
-//                 console.log(state.playerOneDeck);
-//                 console.log(state.playerOnePile);
-
-//                 document.querySelector(`.war__button`).disabled = false;
-                
-//             } 
-            
-//             if (state.playerTwoDeck.length === 0){
-
-//                 document.querySelector(`.war__button`).disabled = true;
-//                 const playerTwoDeck = 'playerTwoDeck';
-//                 const piles = await(await fetch(`https://deckofcardsapi.com/api/deck/${state.deck_id}/pile/${playerTwoDeck}/add/?cards=${state.playerTwoPile.toString()}`)).json();
-                
-//                 const pilesShuffle = await(await fetch(`https://deckofcardsapi.com/api/deck/${state.deck_id}/pile/${playerTwoDeck}/shuffle/`)).json();
-         
-//                 const pilesList = await(await fetch(`https://deckofcardsapi.com/api/deck/${state.deck_id}/pile/${playerTwoDeck}/list/`)).json();
-//                 console.log(pilesList);
-//                 const pilesDraw = await(await fetch(`https://deckofcardsapi.com/api/deck/${state.deck_id}/pile/${playerTwoDeck}/draw/?count=${state.playerTwoPile.length}`)).json();
-//                 console.log(pilesDraw);
-//                 state.playerTwoDeck = state.playerTwoDeck.concat(pilesDraw.cards);
-
-//                 // state.playerTwoDeck = [...state.playerTwoDeck, ...pilesDraw.cards];
-//                 state.playerTwoPile=[];
-                
-//                 console.log(state.playerTwoDeck);
-//                 console.log(state.playerTwoPile);
-
-//                 document.querySelector(`.war__button`).disabled = false;
-//             } 
-
-//         };
-
-
-
   //im starting to think you just pass what card to render to the rendercard
   //all logic of what to render could be done in the rendercard but that doesn't separate Model view controller 
+
+  changeCard=()=>{
+    //only trigger this button when the api has pulled the cards
+    if(this.state.playerOneCurrentCard){
+    this.compareCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard);
+
+    }
+  };
 
 
   renderCards=(playerOneCard, playerTwoCard)=>{
@@ -333,8 +214,17 @@ class App extends React.Component{
       return (
       <div className = "playing-cards">
         <Card cards = {playerOneCard} playerNumber = {1}/>
-      
         <Card cards = {playerTwoCard} playerNumber = {2}/>
+
+        <Card cards = {playerOneCard} playerNumber = {1}/>
+        <Card cards = {playerTwoCard} playerNumber = {2}/>
+
+        <Card cards = {playerOneCard} playerNumber = {1}/>
+      <Card cards = {playerTwoCard} playerNumber = {2}/>
+      
+      <Card cards = {playerOneCard} playerNumber = {1}/>
+      <Card cards = {playerTwoCard} playerNumber = {2}/>
+      
         
       </div>
       )
