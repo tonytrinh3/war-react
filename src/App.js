@@ -44,11 +44,13 @@ class App extends React.Component{
         playerTwoDeck: playerTwo.cards,
         playerOneCurrentCard: playerOne.cards[0],
         playerTwoCurrentCard: playerTwo.cards[0],
+        renderCardArray: [playerOne.cards[0],playerTwo.cards[0]]
       });
 
       console.log(this.state.playerOneDeck);
       console.log(this.state.playerTwoDeck);
-
+      console.log(this.state.renderCardArray.length);
+      
     } catch(error){
       alert(error);
     }
@@ -154,7 +156,8 @@ class App extends React.Component{
             playerOnePile: this.state.playerOnePile.concat(cardPot),//add card won onto pile for future use in deck api
             playerOneCurrentCard: this.state.playerOneDeck[even],
             playerTwoCurrentCard: this.state.playerTwoDeck[even],
-            winnerToken: 1
+            winnerToken: 1,
+            renderCardArray: this.state.renderCardArray.concat(cardPot)
           });
 
           this.state.playerOneDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
@@ -173,7 +176,8 @@ class App extends React.Component{
               playerTwoPile: this.state.playerTwoPile.concat(cardPot),//add card won onto pile for future use in deck api
               playerOneCurrentCard: this.state.playerOneDeck[even],
               playerTwoCurrentCard: this.state.playerTwoDeck[even],
-              winnerToken: 2
+              winnerToken: 2,
+              renderCardArray: this.state.renderCardArray.concat(cardPot)
             });
 
             this.state.playerOneDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
@@ -208,24 +212,33 @@ class App extends React.Component{
   };
 
 
-  renderCards=(playerOneCard, playerTwoCard)=>{
+  renderCards=(cardArray)=>{
     //so when fetching api, you need a conditional to render this if only the state has been updated, which takes a while since you are updating it after componentDidUpdate and not in componenWillUpdate
-    if(this.state.playerOneCurrentCard){
+    
+    
+    // const cardLoop = (cardArray) =>{
+    //   let i;
+    //   for(i = 0; i< cardArray.length; i++){
+    //     // if (i%2 === 2){
+    //     //   return <Card card = {cardArray[i]} playerNumber = {1}/>;
+    //     // } else{
+    //     //   return <Card card = {cardArray[i]} playerNumber = {2}/>;
+    //     // }
+    //     return <Card card = {cardArray[i]} playerNumber = {2}/>;
+    //   }
+    // };
+    
+    const cardLoop = cardArray.map((card, index) =>{
+      return <Card card = {card} playerNumber = {index%2 === 0 ? 1 : 2}/>
+    })
+    
+    
+    
+    if(this.state.renderCardArray){
+
       return (
       <div className = "playing-cards">
-        <Card cards = {playerOneCard} playerNumber = {1}/>
-        <Card cards = {playerTwoCard} playerNumber = {2}/>
-
-        <Card cards = {playerOneCard} playerNumber = {1}/>
-        <Card cards = {playerTwoCard} playerNumber = {2}/>
-
-        <Card cards = {playerOneCard} playerNumber = {1}/>
-      <Card cards = {playerTwoCard} playerNumber = {2}/>
-      
-      <Card cards = {playerOneCard} playerNumber = {1}/>
-      <Card cards = {playerTwoCard} playerNumber = {2}/>
-      
-        
+        {cardLoop}
       </div>
       )
     }
@@ -241,7 +254,7 @@ class App extends React.Component{
 
 
 
-          {this.renderCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard)}
+          {this.renderCards(this.state.renderCardArray)}
           
    
           <div>

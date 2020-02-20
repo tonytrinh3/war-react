@@ -11,7 +11,7 @@ const Card = (props) => {
     //     return <img className = {"card--" + props.playerNumber} src ={card.image} alt = {card.code} key = {card.code}/>
     // });
     
-    return <img className = {"playing-card playing-card--" + props.playerNumber} src ={props.cards.image} alt = {props.cards.code} key = {props.cards.code}/>
+    return <img className = {"playing-card playing-card--" + props.playerNumber} src ={props.card.image} alt = {props.card.code} key = {props.card.code}/>
 
     
 
