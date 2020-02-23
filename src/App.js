@@ -43,8 +43,7 @@ class App extends React.Component{
         playerOneDeck: playerOne.cards,
         playerTwoDeck: playerTwo.cards,
         playerOneCurrentCard: playerOne.cards[0],
-        playerTwoCurrentCard: playerTwo.cards[0],
-        renderCardArray: [playerOne.cards[0],playerTwo.cards[0]]
+        playerTwoCurrentCard: playerTwo.cards[0]
       });
 
       //console.log(this.state.playerOneDeck);
@@ -86,7 +85,7 @@ class App extends React.Component{
   compareCards= async (playerOneCurrentCard , playerTwoCurrentCard)=> {
     let cardPot = [];
     cardPot.push(playerOneCurrentCard,playerTwoCurrentCard);
-    //console.log(cardPot);
+    console.log(cardPot);
 
     this.setState({
       renderCardArray: []
@@ -94,6 +93,13 @@ class App extends React.Component{
   
   
     if (this.cardNumber(playerOneCurrentCard) > this.cardNumber(playerTwoCurrentCard)){
+
+      console.log(this.state.playerOnePile);
+      console.log(this.state.playerOneCurrentCard);
+      console.log(this.state.playerTwoCurrentCard);
+
+      this.state.playerOneDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
+      this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player two deck bc they lost
 
       this.setState({
       
@@ -104,9 +110,15 @@ class App extends React.Component{
         renderCardArray: cardPot
       });
 
+      console.log(this.state.playerOnePile);
+      console.log(this.state.playerOneCurrentCard);
+      console.log(this.state.playerTwoCurrentCard);
+
       //console.log(this.state.renderCardArray);
-    this.state.playerOneDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
-     this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player two deck bc they lost
+   
+
+   
+
 
      cardPot = [];
 
@@ -118,6 +130,15 @@ class App extends React.Component{
     } else if (this.cardNumber(playerTwoCurrentCard) > this.cardNumber(playerOneCurrentCard)){
 
 
+      console.log(this.state.playerTwoPile);
+      console.log(this.state.playerOneCurrentCard);
+      console.log(this.state.playerTwoCurrentCard);
+
+      this.state.playerOneDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
+      this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player two deck bc they lost
+
+
+
       this.setState({
     
         playerTwoPile: this.state.playerTwoPile.concat(cardPot),//add card won onto pile for future use in deck api
@@ -127,8 +148,12 @@ class App extends React.Component{
         renderCardArray: cardPot
       });
 
-      this.state.playerOneDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
-      this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player two deck bc they lost
+      
+      console.log(this.state.playerTwoPile);
+      console.log(this.state.playerOneCurrentCard);
+      console.log(this.state.playerTwoCurrentCard);
+
+
 
       cardPot = [];
       
@@ -242,13 +267,13 @@ class App extends React.Component{
             playerOneDeck: this.state.playerOneDeck.concat(pilesDraw.cards),
             playerOnePile: []
           });
-          console.log(this.state.playerOnePile);
+        
        } else if (playerNameDeck==='playerTwoDeck'){
           this.setState({
             playerTwoDeck: this.state.playerOneDeck.concat(pilesDraw.cards),
             playerTwoPile: []
           });
-          console.log(this.state.playerTwoPile);
+         
 
        };
 
@@ -289,18 +314,6 @@ class App extends React.Component{
     //so when fetching api, you need a conditional to render this if only the state has been updated, which takes a while since you are updating it after componentDidUpdate and not in componenWillUpdate
     
     
-    // const cardLoop = (cardArray) =>{
-    //   let i;
-    //   for(i = 0; i< cardArray.length; i++){
-    //     // if (i%2 === 2){
-    //     //   return <Card card = {cardArray[i]} playerNumber = {1}/>;
-    //     // } else{
-    //     //   return <Card card = {cardArray[i]} playerNumber = {2}/>;
-    //     // }
-    //     return <Card card = {cardArray[i]} playerNumber = {2}/>;
-    //   }
-    // };
-    
     const cardLoop = cardArray.map((card, index) =>{
       return <Card card = {card} playerNumber = {index%2 === 0 ? 1 : 2}/>
     })
@@ -317,17 +330,22 @@ class App extends React.Component{
 
 
   render(){
+
+    const showRoundWin = ()=>{
+      return this.state.winnerToken === 0 ? null : this.state.winnerToken === 1 ? "!!Player One!! wins this round":"??Player Two?? wins this round";
+    };
+
+    const renderCardsLogic = () =>{
+      return this.state.renderCardArray === [] ? null : this.renderCards(this.state.renderCardArray);
+    }
     
     return (
       <div className = "container">
         <h1>War</h1>
         <div className = "playing-area">
 
-
-
-          {this.renderCards(this.state.renderCardArray)}
+          {renderCardsLogic()}
           
-   
           <div>
           <h1>Player One Deck {this.state.playerOneDeck.length}</h1>
           <br/>
@@ -342,7 +360,7 @@ class App extends React.Component{
           <button className = "btn war-button" onClick = {this.changeCard} >Time to War</button>
           
         </div>
-        <h1>{this.state.winnerToken === 1 ? "Player One!! wins this round":"Player Two?! wins this round" }</h1>
+        <h1>{showRoundWin() }</h1>
       </div>
 
     )
@@ -350,12 +368,6 @@ class App extends React.Component{
 }
 
 export default App;
-
-
-
-//   const state = {};
-
-
 
 
 
@@ -760,163 +772,3 @@ export default App;
 
 
 
-
-
-
-// compareCards = (playerOneCurrentCard , playerTwoCurrentCard) => {
-
-  //   let cardPot = [];
-  //   cardPot.push(playerOneCurrentCard,playerTwoCurrentCard);
-
-
-
-  //   const cardsNotEqual = (playerOneCurrentCard,playerTwoCurrentCard) => {
-
-  //     if (this.cardNumber(playerOneCurrentCard) > this.cardNumber(playerTwoCurrentCard)){
-
-  //       this.state.playerOnePile.concat(cardPot);//add card won onto pile for future use in deck api
-  //       this.state.playerOneDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
-  //       this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player two deck bc they lost
-
-  //       this.setState({
-  //       playerOneCurrentCard: this.state.playerOneDeck[0],
-  //       playerTwoCurrentCard: this.state.playerTwoDeck[0]
-  //       });
-          
-  //       cardPot = [];
-
-  //       this.renderCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard);
-        
-  //     } else if (this.cardNumber(playerTwoCurrentCard) > this.cardNumber(playerOneCurrentCard)){
-  
-  //       this.state.playerTwoPile.concat(cardPot);//add card won onto pile for future use in deck api
-  //       this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
-  //       this.state.playerOneDeck.splice(0,cardPot.length/2)
-
-  //       this.setState({
-  //         playerOneCurrentCard: this.state.playerOneDeck[0],
-  //         playerTwoCurrentCard: this.state.playerTwoDeck[0]
-  //       });
-        
-  //       cardPot = []; 
-
-  //       this.renderCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard);
-  //     } 
-  //   }
-    
-  //   //playerOneCurrentCard is always changing bc the state of playerOneCurrentCard is changing as you move through this
-  //   const equalCards = (playerOneCurrentCard,playerTwoCurrentCard) =>{
-  //     console.log("equal cards");
-
-  //     console.log(playerOneCurrentCard);
-  //     console.log(playerTwoCurrentCard);
-
-  //     let odd = 1;
-
-  //     let even = 2;
-  //     while (this.cardNumber(this.state.playerOneCurrentCard) === this.cardNumber(this.state.playerTwoCurrentCard)) {
-
-  //       cardPot.push(this.state.playerOneDeck[odd],this.state.playerTwoDeck[odd],this.state.playerOneDeck[even],this.state.playerTwoDeck[even]);
-
-  //       this.renderCards(this.state.playerOneDeck[odd], this.state.playerTwoDeck[odd]);
-   
-  //       this.renderCards(this.state.playerOneDeck[even], this.state.playerTwoDeck[even]);
-
-  //       console.log(cardPot);
-
-  //       this.setState({
-  //         playerOneCurrentCard: this.state.playerOneDeck[even],
-  //         playerTwoCurrentCard: this.state.playerTwoDeck[even]
-  //       });
-        
-  //       odd += 2;
-  //       even += 2;
-
-  //       if (this.state.playerOneCurrentCard !== this.state.playerTwoCurrentCard ){
-  //         cardsNotEqual(this.state.playerOneCurrentCard,this.state.playerTwoCurrentCard);
-  //         break;
-  //       } else {
-  //         equalCards(this.state.playerOneCurrentCard,this.state.playerTwoCurrentCard);
-  //       }
-  //     }
-  //   };
-
-  //   if (this.cardNumber(playerOneCurrentCard) !== this.cardNumber(playerTwoCurrentCard)){
-  //     return cardsNotEqual(playerOneCurrentCard,playerTwoCurrentCard)
-  //   } else if (this.cardNumber(playerOneCurrentCard) === this.cardNumber(playerTwoCurrentCard)){
-  //     return equalCards(playerOneCurrentCard,playerTwoCurrentCard);
-  //   };
-
-  // };
-
-
-  // else if (this.cardNumber(playerOneCurrentCard) === this.cardNumber(playerTwoCurrentCard)){
-  //   //playerOneCurrentCard is always changing bc the state of playerOneCurrentCard is changing as you move through this
-
-  //   console.log("equal cards");
-
-  //   console.log(playerOneCurrentCard);
-  //   console.log(playerTwoCurrentCard);
-
-  //   let odd = 1;
-
-  //   let even = 2;
-  //   while (this.cardNumber(this.state.playerOneCurrentCard) === this.cardNumber(this.state.playerTwoCurrentCard)) {
-
-  //     cardPot.push(this.state.playerOneDeck[odd],this.state.playerTwoDeck[odd],this.state.playerOneDeck[even],this.state.playerTwoDeck[even]);
-
-  //     this.renderCards(this.state.playerOneDeck[odd], this.state.playerTwoDeck[odd]);
-
-  //     this.renderCards(this.state.playerOneDeck[even], this.state.playerTwoDeck[even]);
-
-  //     console.log(cardPot);
-
-  //     this.setState({
-  //       playerOneCurrentCard: this.state.playerOneDeck[even],
-  //       playerTwoCurrentCard: this.state.playerTwoDeck[even]
-  //     });
-      
-  //     odd += 2;
-  //     even += 2;
-
-  //     this.compareCards(this.state.playerOneCurrentCard,this.state.playerTwoCurrentCard )
-  //   }
-  // }
-
-   // compareCards = (playerOneCurrentCard , playerTwoCurrentCard) => {
-
-  //   let cardPot = [];
-  //   cardPot.push(playerOneCurrentCard,playerTwoCurrentCard);
-
-
-  //   if (this.cardNumber(playerOneCurrentCard) > this.cardNumber(playerTwoCurrentCard)){
-
-  //     this.state.playerOnePile.concat(cardPot);//add card won onto pile for future use in deck api
-  //     this.state.playerOneDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
-  //     this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player two deck bc they lost
-
-  //     this.setState({
-  //     playerOneCurrentCard: this.state.playerOneDeck[0],
-  //     playerTwoCurrentCard: this.state.playerTwoDeck[0]
-  //     });
-        
-  //     cardPot = [];
-
-  //     this.renderCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard);
-      
-  //   } else if (this.cardNumber(playerTwoCurrentCard) > this.cardNumber(playerOneCurrentCard)){
-
-  //     this.state.playerTwoPile.concat(cardPot);//add card won onto pile for future use in deck api
-  //     this.state.playerTwoDeck.splice(0,cardPot.length/2);//removes card from player one deck bc it is already in pile 
-  //     this.state.playerOneDeck.splice(0,cardPot.length/2)
-
-  //     this.setState({
-  //       playerOneCurrentCard: this.state.playerOneDeck[0],
-  //       playerTwoCurrentCard: this.state.playerTwoDeck[0]
-  //     });
-      
-  //     cardPot = []; 
-
-  //     this.renderCards(this.state.playerOneCurrentCard, this.state.playerTwoCurrentCard);
-  //   } 
-  // };
