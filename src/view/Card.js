@@ -3,15 +3,8 @@ import React from "react";
 import '../sass/main.scss';
 
 const Card = (props) => {
-    // console.log(props.cards);
-    // const image = props.card.image;
-    // const code = props.card.code;
-
-    // const images = props.cards.map((card)=>{
-    //     return <img className = {"card--" + props.playerNumber} src ={card.image} alt = {card.code} key = {card.code}/>
-    // });
     
-    return <img className = {"playing-card playing-card--" + props.playerNumber} src ={props.card.image} alt = {props.card.code} key = {props.card.code}/>
+    return <img className = {"playing-card playing-card--" + props.playerNumber} src ={props.card.image} alt = {props.card.code}/>
 
     
 
