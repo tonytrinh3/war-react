@@ -394,8 +394,11 @@ class App extends React.Component{
 
           <button className = "btn war-button" onClick = {this.changeCard} >Time to War</button>
 
-        
+  
           
+        </div>
+        <h1>{showRoundWin() }</h1>
+      <div>
 
           {renderDeckLogicPlayer1()}
           {renderDeckLogicPlayer2()}
@@ -404,10 +407,9 @@ class App extends React.Component{
           {renderPileLogicPlayer2()}
        
 
-          
-          
-        </div>
-        <h1>{showRoundWin() }</h1>
+
+      </div>
+
       </div>
 
     )

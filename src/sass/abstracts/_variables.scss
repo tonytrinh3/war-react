@@ -3,4 +3,6 @@ $default-font-size: 1.6rem;
 
 //Grid-column
 
-$grid-column: [full-start] minmax(6rem,1fr) [center-start] repeat(8,[col-start] 1fr [col-end]) [center-end] minmax(6rem, 1fr) [full-end]
+$grid-column: [pile-start] minmax(6rem,1fr) 
+[pile-end play-area-start] 50vh
+[play-area-end deck-start] minmax(6rem, 1fr) [deck-end];
