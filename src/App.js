@@ -322,11 +322,8 @@ class App extends React.Component{
     
     if(this.state.renderCardArray){
 
-      return (
-      <div className = "playing-cards">
-        {cardLoop}
-      </div>
-      )
+      return cardLoop;
+      
     }
   }
 
@@ -378,36 +375,26 @@ class App extends React.Component{
       <div className = "container">
         <h1>War</h1>
         <div className = "playing-area">
-
           {renderCardsLogic()}
-          
-          <div>
-          <h1>Player One Deck {this.state.playerOneDeck.length}</h1>
-          <br/>
-          <h1>Player One Pile {this.state.playerOnePile.length}</h1>
-          </div>
-          <div>
-          <h1>Player Two Deck {this.state.playerTwoDeck.length}</h1>
-          <br/>
-          <h1>Player Two Pile {this.state.playerTwoPile.length}</h1>
-          </div>
-
-          <button className = "btn war-button" onClick = {this.changeCard} >Time to War</button>
-
-  
-          
+          <h3 className = "playing-area-text">{showRoundWin() }</h3>
         </div>
-        <h1>{showRoundWin() }</h1>
-      <div>
 
+    
+      <div className = 'playing-pile'>
+        <h1>Player One Pile {this.state.playerOnePile.length}</h1>
+        {renderPileLogicPlayer1()}
+        <h1>Player Two Pile {this.state.playerTwoPile.length}</h1>
+        {renderPileLogicPlayer2()}
+      </div>
+
+      <div className = 'playing-deck'>
+
+        <h1>Player One Deck {this.state.playerOneDeck.length}</h1>
           {renderDeckLogicPlayer1()}
+     
+          <button className = "btn war-button" onClick = {this.changeCard} >Time to War</button>
+          <h1>Player Two Deck {this.state.playerTwoDeck.length}</h1>
           {renderDeckLogicPlayer2()}
-
-          {renderPileLogicPlayer1()}
-          {renderPileLogicPlayer2()}
-       
-
-
       </div>
 
       </div>

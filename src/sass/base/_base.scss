@@ -21,7 +21,9 @@ body{
 .container{
     display: grid;
     
-    grid-template-rows: min-content min-content min-content min-content ;
+    grid-template-rows: [player-two-start-row ]min-content 
+    [player-two-end-row playing-area-start-row] min-content 
+    [playing-area-end-row player-one-start-row] min-content [player-one-end-row] ;
 
     grid-template-columns:$grid-column;
 }

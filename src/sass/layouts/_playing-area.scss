@@ -1,22 +1,17 @@
-.playing-area{
-    grid-column: center-start/center-end;
+
+.playing-area {
+
+
+
+    grid-column: play-area-start-column/play-area-end-column;
+    grid-row: play-area-start-row/play-area-end-row;
 
     display: grid;
-    grid-template-columns: repeat(6,10vw);
+    grid-template-columns: repeat (6, 1fr);
     grid-template-rows: repeat(6,1fr);
+    width: 50vw;
     height: 80vh;
-    margin: 3rem;
     background-color: rgb(93, 64, 55);
-    
-}
-
-.playing-cards {
-    grid-column:3/5;
-    grid-row: 1/7;
-    // background-color: red;
-    padding: 3rem;
-
-    display: grid;
     
 }
 
@@ -24,31 +19,42 @@
     height: 20vh;
 
     &--1{
-        grid-row: 1/2;
-       
-    }
-
-    &--2{
+        grid-column: 2/3;
         grid-row: 2/3;
        
     }
 
+    &--2{
+        grid-column: 2/3;
+        grid-row: 4/5;
+       
+    }
+
+};
+
+.playing-area-text{
+    grid-column: 2/3;
+    grid-row:3/4;
+    align-self: center;
 }
 
 .playing-deck {
-   
     height: 20vh;
     border-radius: 2rem;
 
+    grid-column: deck-start-column/deck-end-column;
+
     &--1{
-        grid-column:5/6;
-        grid-row: 1/2;
+
+        grid-row: player-one-start/player-one-end;
+    
         background-color :red;
     }
 
     &--2{
-        grid-column:5/6;
-        grid-row: 6/7;
+    
+        grid-row: player-two-start/player-two-end;
+
         background-color:blue;
     }
 
@@ -57,19 +63,26 @@
 
 
 .playing-pile {
+
+
    
     height: 20vh;
     border-radius: 2rem;
 
+    grid-column: pile-start-column/pile-end-column;
+
     &--1{
-        grid-column:2/3;
-        grid-row: 1/2;
+
+        grid-row: player-one-start/player-one-end;
+   
         background-color: lightcoral;
     }
 
     &--2{
-        grid-column:2/3;
-        grid-row: 6/7;
+
+    
+        grid-row: player-two-start/player-two-end;
+
         background-color:lightskyblue;
     }
 
