@@ -7,24 +7,29 @@
     grid-row: play-area-start-row/play-area-end-row;
 
     display: grid;
-    grid-template-columns: repeat (6, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(6,1fr);
-
+    height: 80vh;
     background-color: rgb(93, 64, 55);
     
 }
 
 .playing-card{
     height: 20vh;
+    grid-column: 2/3;
+
+    // display: grid;
+    // grid-template-columns: repeat(6, 1fr);
+    // grid-template-rows: repeat(6,1fr);
 
     &--1{
-        grid-column: 2/3;
+        
         grid-row: 2/3;
        
     }
 
     &--2{
-        grid-column: 2/3;
+        
         grid-row: 4/5;
        
     }
@@ -38,22 +43,27 @@
 }
 
 .playing-deck {
+    background-color: green;
+
 
     border-radius: 2rem;
 
     grid-column: deck-start-column/deck-end-column;
+    grid-row: 1/3;
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
 
     &--1{
 
-        grid-row: player-one-start/player-one-end;
-    
+       
+        grid-row: 1/3;
         background-color :red;
     }
 
     &--2{
     
-        grid-row: player-two-start/player-two-end;
-
+        
+        grid-row: 4/6;
         background-color:blue;
     }
 
@@ -61,15 +71,34 @@
 }
 
 
+
+.war-button{
+    background-color:rgb(56, 142, 60);
+    height: 10rem;
+    width: 20rem;
+    grid-row:3/4;
+
+    &:hover{
+        background-color:rgb(104, 159, 56);
+
+        cursor: pointer;
+    }
+
+}
+
 .playing-pile {
-    height: 20vh;
+    
     border-radius: 2rem;
+    background-color: red;
 
     grid-column: pile-start-column/pile-end-column;
+    grid-row: 1/3;
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
 
     &--1{
 
-        grid-row: player-one-start/player-one-end;
+        grid-row: 1/3;
    
         background-color: lightcoral;
     }
@@ -77,7 +106,7 @@
     &--2{
 
     
-        grid-row: player-two-start/player-two-end;
+        grid-row: 4/6;
 
         background-color:lightskyblue;
     }
@@ -89,16 +118,4 @@
 
 
 
-.war-button{
-    background-color:rgb(56, 142, 60);
-    height: 10rem;
-    width: 20rem;
-
-    &:hover{
-        background-color:rgb(104, 159, 56);
-
-        cursor: pointer;
-    }
-
-}
 

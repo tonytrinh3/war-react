@@ -9,7 +9,7 @@ class App extends React.Component{
     super(props);
     this.state = {
       deck_id: "",
-      deckSize: 20,
+      deckSize: 52,
       playerOneDeck: [],
       playerTwoDeck: [],
       playerOnePile: [],
@@ -318,11 +318,12 @@ class App extends React.Component{
     
     const cardLoop = cardArray.map((card, index) =>{
       return <Card card = {card} playerNumber = {index%2 === 0 ? 1 : 2} key ={card.code}/>
-    })
+    });
+    console.log(cardLoop);
     
     if(this.state.renderCardArray){
-
-      return cardLoop;
+    // return (<div className = "playing-card">{cardLoop}</div>)
+    return (cardLoop);
       
     }
   }
@@ -343,7 +344,7 @@ class App extends React.Component{
       if (this.state.playerOnePile === []){
         return null
       } else if (this.state.playerOnePile.length  >= 2) {
-        return <div className = "playing-pile playing-pile--1"> <h1>Player One Pile {this.state.playerOnePile.length}</h1></div>
+        return <div className = "playing-pile--1"> <h1>Player One Pile {this.state.playerOnePile.length}</h1></div>
       }
     };
 
@@ -351,7 +352,7 @@ class App extends React.Component{
       if (this.state.playerTwoPile === []){
         return null
       } else if (this.state.playerTwoPile.length  >= 2){
-        return <div className = "playing-pile playing-pile--2"> <h1>Player Two Pile {this.state.playerTwoPile.length}</h1></div>
+        return <div className = " playing-pile--2"> <h1>Player Two Pile {this.state.playerTwoPile.length}</h1></div>
       }
     };
 
@@ -359,7 +360,7 @@ class App extends React.Component{
       if (this.state.playerOneDeck === []){
         return null
       } else  {
-        return <div className = "playing-deck playing-deck--1"><h1>Player One Deck {this.state.playerOneDeck.length}</h1></div>
+        return <div className = "playing-deck--1"><h1>Player One Deck {this.state.playerOneDeck.length}</h1></div>
       }
     };
 
@@ -367,17 +368,17 @@ class App extends React.Component{
       if (this.state.playerTwoDeck === []){
         return null
       } else {
-        return <div className = "playing-deck playing-deck--2">          <h1>Player Two Deck {this.state.playerTwoDeck.length}</h1></div>
+        return <div className = "playing-deck--2">          <h1>Player Two Deck {this.state.playerTwoDeck.length}</h1></div>
       }
     };
     
     return (
       <div className = "container">
         {/* <h1>War</h1> */}
-        <div className = "playing-area">
-          {renderCardsLogic()}
-          <h3 className = "playing-area-text">{showRoundWin() }</h3>
-        </div>
+      <div className = "playing-area">
+        {renderCardsLogic()}
+        <h3 className = "playing-area-text">{showRoundWin()}</h3>
+      </div>
 
     
       <div className = 'playing-pile'>
@@ -389,12 +390,11 @@ class App extends React.Component{
 
       <div className = 'playing-deck'>
 
-        
-          {renderDeckLogicPlayer1()}
-     
-          <button className = "btn war-button" onClick = {this.changeCard} >Time to War</button>
+        {renderDeckLogicPlayer1()}
+    
+        <button className = "btn war-button" onClick = {this.changeCard} >Time to War</button>
 
-          {renderDeckLogicPlayer2()}
+        {renderDeckLogicPlayer2()}
       </div>
 
       </div>
