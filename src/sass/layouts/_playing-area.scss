@@ -9,8 +9,7 @@
     display: grid;
     grid-template-columns: repeat (6, 1fr);
     grid-template-rows: repeat(6,1fr);
-    width: 50vw;
-    height: 80vh;
+
     background-color: rgb(93, 64, 55);
     
 }
@@ -39,7 +38,7 @@
 }
 
 .playing-deck {
-    height: 20vh;
+
     border-radius: 2rem;
 
     grid-column: deck-start-column/deck-end-column;
@@ -63,9 +62,6 @@
 
 
 .playing-pile {
-
-
-   
     height: 20vh;
     border-radius: 2rem;
 
@@ -95,8 +91,6 @@
 
 .war-button{
     background-color:rgb(56, 142, 60);
-    grid-column: 6/7;
-    grid-row: 4/5;
     height: 10rem;
     width: 20rem;
 

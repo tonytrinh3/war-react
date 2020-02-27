@@ -21,9 +21,11 @@ body{
 .container{
     display: grid;
     
-    grid-template-rows: [player-two-start-row ]min-content 
-    [player-two-end-row playing-area-start-row] min-content 
-    [playing-area-end-row player-one-start-row] min-content [player-one-end-row] ;
+    grid-template-rows: [player-two-start-row ] minmax(6rem,1fr)  
+    [player-two-end-row playing-area-start-row] 80vh
+    [playing-area-end-row player-one-start-row] minmax(6rem,1fr)  [player-one-end-row] ;
 
-    grid-template-columns:$grid-column;
+    grid-template-columns:[pile-start-column] minmax(6rem,1fr) 
+    [pile-end-column play-area-start-column] 50vw
+    [play-area-end-column deck-start-column] minmax(6rem, 1fr) [deck-end-column];
 }
