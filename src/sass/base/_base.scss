@@ -17,14 +17,17 @@ html{
 body{
    
     font-size: $default-font-size;
+    background-color: #616161
 }
 
 .container{
     display: grid;
     
 
+    
 
-    grid-template-columns:[pile-start-column] minmax(6rem,1fr) 
-    [pile-end-column play-area-start-column] 50vw
-    [play-area-end-column deck-start-column] minmax(6rem, 1fr) [deck-end-column];
+
+    grid-template-columns:[pile-start-column] minmax(22.6rem,1fr) 
+    [pile-end-column play-area-start-column] minmax(50vw,2fr)
+    [play-area-end-column deck-start-column] minmax(22.6rem,1fr)  [deck-end-column];
 }

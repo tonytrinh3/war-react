@@ -326,13 +326,13 @@ class App extends React.Component{
     return (cardLoop);
       
     }
-  }
+  };
 
 
   render(){
 
     const showRoundWin = ()=>{
-      return this.state.winnerToken === 0 ? null : this.state.winnerToken === 1 ? "!!Player One!! wins this round":"??Player Two?? wins this round";
+      return this.state.winnerToken === 0 ? null : this.state.winnerToken === 1 ? "Player One wins this round":"Player Two wins this round";
     };
 
     const renderCardsLogic = () =>{
@@ -344,7 +344,9 @@ class App extends React.Component{
       if (this.state.playerOnePile === []){
         return null
       } else if (this.state.playerOnePile.length  >= 2) {
-        return <div className = "playing-pile--1"> <h1>Player One Pile {this.state.playerOnePile.length}</h1></div>
+        return (
+         <img className = "playing-pile playing-pile--1" src="https://upload.wikimedia.org/wikipedia/commons/5/54/Card_back_06.svg" alt = "back of card"/>
+        )
       }
     };
 
@@ -352,7 +354,9 @@ class App extends React.Component{
       if (this.state.playerTwoPile === []){
         return null
       } else if (this.state.playerTwoPile.length  >= 2){
-        return <div className = " playing-pile--2"> <h1>Player Two Pile {this.state.playerTwoPile.length}</h1></div>
+        return (
+          <img className = " playing-pile playing-pile--2" src="https://upload.wikimedia.org/wikipedia/commons/5/54/Card_back_06.svg" alt = "back of card"/>
+        )
       }
     };
 
@@ -360,7 +364,9 @@ class App extends React.Component{
       if (this.state.playerOneDeck === []){
         return null
       } else  {
-        return <div className = "playing-deck--1"><h1>Player One Deck {this.state.playerOneDeck.length}</h1></div>
+        return (
+          <img className = "playing-deck playing-deck--1" src="https://upload.wikimedia.org/wikipedia/commons/5/54/Card_back_06.svg" alt = "back of card"/>
+          )
       }
     };
 
@@ -368,35 +374,38 @@ class App extends React.Component{
       if (this.state.playerTwoDeck === []){
         return null
       } else {
-        return <div className = "playing-deck--2">          <h1>Player Two Deck {this.state.playerTwoDeck.length}</h1></div>
+        return (
+           <img className = "playing-deck playing-deck--2"src="https://upload.wikimedia.org/wikipedia/commons/5/54/Card_back_06.svg" alt = "back of card"/>
+          )
       }
     };
     
     return (
       <div className = "container">
-        {/* <h1>War</h1> */}
-      <div className = "playing-area">
-        {renderCardsLogic()}
-        <h3 className = "playing-area-text">{showRoundWin()}</h3>
-      </div>
-
+        <div className = "playing-area">
+          <div className="playing-cards">
+            {renderCardsLogic()}
+            <h3 className = "playing-area-text">{showRoundWin()}</h3>
+          </div>
+        </div>
+        <div className = 'playing-pile-area'>
+          <div className="playing-pile">
+            <h1 className= "playing-pile-text playing-pile-text--1">Player One Pile {this.state.playerOnePile.length}</h1>
+            {renderPileLogicPlayer1()}
+            <h1 className= "playing-pile-text playing-pile-text--1">Player Two Pile {this.state.playerTwoPile.length}</h1>
+            {renderPileLogicPlayer2()}
+          </div>
+        </div>
+        <div className = 'playing-deck-area'>
+          <div className= "playing-deck">
+          <h1 className= "playing-deck-text playing-deck-text--1" >Player One Deck {this.state.playerOneDeck.length}</h1>
+          {renderDeckLogicPlayer1()}
     
-      <div className = 'playing-pile'>
-       
-        {renderPileLogicPlayer1()}
-       
-        {renderPileLogicPlayer2()}
-      </div>
-
-      <div className = 'playing-deck'>
-
-        {renderDeckLogicPlayer1()}
-    
-        <button className = "btn war-button" onClick = {this.changeCard} >Time to War</button>
-
-        {renderDeckLogicPlayer2()}
-      </div>
-
+          <h1 className= "playing-deck-text playing-deck-text--2">Player Two Deck {this.state.playerTwoDeck.length}</h1>
+          {renderDeckLogicPlayer2()}
+          <button className = "btn war-button" onClick = {this.changeCard} >Time to War</button>
+          </div>
+        </div>
       </div>
 
     )
