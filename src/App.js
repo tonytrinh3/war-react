@@ -315,16 +315,12 @@ class App extends React.Component{
   renderCards=(cardArray)=>{
     //so when fetching api, you need a conditional to render this if only the state has been updated, which takes a while since you are updating it after componentDidUpdate and not in componenWillUpdate
     
-    
     const cardLoop = cardArray.map((card, index) =>{
-      return <Card card = {card} playerNumber = {index%2 === 0 ? 1 : 2} key ={card.code}/>
+      return <Card card = {card} playerNumber = {index%2 === 0 ? 1 : 2} key ={card.code} index = {index}/>
     });
-    console.log(cardLoop);
     
     if(this.state.renderCardArray){
-    // return (<div className = "playing-card">{cardLoop}</div>)
-    return (cardLoop);
-      
+     return (cardLoop);
     }
   };
 
@@ -383,28 +379,31 @@ class App extends React.Component{
     return (
       <div className = "container">
         <div className = "playing-area">
-          <div className="playing-cards">
+          
             {renderCardsLogic()}
             <h3 className = "playing-area-text">{showRoundWin()}</h3>
-          </div>
+          
         </div>
         <div className = 'playing-pile-area'>
-          <div className="playing-pile">
+         
             <h1 className= "playing-pile-text playing-pile-text--1">Player One Pile {this.state.playerOnePile.length}</h1>
             {renderPileLogicPlayer1()}
-            <h1 className= "playing-pile-text playing-pile-text--1">Player Two Pile {this.state.playerTwoPile.length}</h1>
+            <h1 className= "playing-pile-text playing-pile-text--2">Player Two Pile {this.state.playerTwoPile.length}</h1>
             {renderPileLogicPlayer2()}
-          </div>
+          
         </div>
         <div className = 'playing-deck-area'>
-          <div className= "playing-deck">
+          
           <h1 className= "playing-deck-text playing-deck-text--1" >Player One Deck {this.state.playerOneDeck.length}</h1>
           {renderDeckLogicPlayer1()}
     
           <h1 className= "playing-deck-text playing-deck-text--2">Player Two Deck {this.state.playerTwoDeck.length}</h1>
           {renderDeckLogicPlayer2()}
           <button className = "btn war-button" onClick = {this.changeCard} >Time to War</button>
-          </div>
+          
+        </div>
+        <div className="rule-text">
+          <h1>Note: This game will have bugs over time when you continue to play the game</h1>
         </div>
       </div>
 

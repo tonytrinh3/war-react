@@ -1,31 +1,23 @@
-
 .playing-area {
     background-color: $playing-deck-area-color;
     grid-column: play-area-start-column/play-area-end-column;
-    grid-row: 1/3;
+    // grid-row: 1/3;
     height: 80vh;
  
-}
-
-.playing-cards{
-  
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(6,1fr);
-
- 
+ display: grid;
+ grid-template-columns: repeat(6,1fr);
 
 }
 
 .playing-card{
     width:$card-width;
     height: $card-height;
-    grid-column: 1/-1;
-    justify-self: center;
-
-    
    
-    
+    justify-self: center;
+    align-self: center;
+  
+ 
+
     &--1{
         
         grid-row: 2/3;

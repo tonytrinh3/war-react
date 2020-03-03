@@ -3,11 +3,17 @@ import React from "react";
 import '../sass/main.scss';
 
 const Card = (props) => {
-    
-    return <img className = {"playing-card playing-card--" + props.playerNumber} src ={props.card.image} alt = {props.card.code}/>
 
+    let burnCardIndex1 = 2;
+    let burnCardIndex2 =3;
     
-
+    if (props.index === burnCardIndex1 || props.index === burnCardIndex2) {
+        burnCardIndex1 += 4;//in array of cards to display, we want to show the back of the card for index 2 and 3 bc they are burn cards. if we have more than 6 cards in war, then we would add +4 into the index to burn card index 6 and 7, 10 and 11, etc.
+        burnCardIndex2 += 4;
+        return <img className = {"playing-card playing-card--" + props.playerNumber} src="https://upload.wikimedia.org/wikipedia/commons/5/54/Card_back_06.svg" alt = "back of card"/>;
+    } else {
+        return <img className = {"playing-card playing-card--" + props.playerNumber} src ={props.card.image} alt = {props.card.code}/>
+    }
 }
 
 export default Card;
