@@ -14,20 +14,22 @@ html{
     box-sizing: border-box;
 }
 
-body{
-   
-    font-size: $default-font-size;
-    background-color: #616161
-}
+
 
 .container{
     display: grid;
     
+    grid-template-columns: [full-start] minmax(6rem, 1fr) 
 
+    [pile-start] minmax(min-content,$card-width)
+
+    [pile-end center-start] repeat(6, [col-start] minmax(min-content,$card-width) [col-end]) 
     
+    [center-end deck-start] 
 
+    minmax(min-content,$card-width)
+    
+    [deck-end]minmax(6rem, 1fr) [full-end];
 
-    grid-template-columns:[pile-start-column] minmax(22.6rem,1fr) 
-    [pile-end-column play-area-start-column] minmax(50vw,2fr)
-    [play-area-end-column deck-start-column] minmax(22.6rem,1fr)  [deck-end-column];
+ 
 }

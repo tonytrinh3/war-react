@@ -2,5 +2,11 @@ body {
     font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
     font-weight: 400;
     line-height: 1.4375; //16px size with a 23px line height
-    color: black
+    color: black;
+      
+    font-size: $default-font-size;
+    background-color:   $playing-deck-area-color;
+
+  
 }
+

@@ -1,8 +1,9 @@
 .playing-deck-area{
-    // background-color: green;
+
     background-color: $playing-deck-area-color;
-    grid-column: deck-start-column/deck-end-column;
-    grid-row: 1/3;
+    grid-column: deck-start/deck-end;
+
+    // background-color: red;
 
     display: grid;
     grid-template-rows: 
@@ -13,6 +14,7 @@
     10rem [war-button-end]
     ;
     
+    margin-left: 2rem;
 }
 
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from './view/Card';
+import card_img from "./pics/Card_back_06.svg";
 
 import './sass/main.scss';
 
@@ -341,7 +342,7 @@ class App extends React.Component{
         return null
       } else if (this.state.playerOnePile.length  >= 2) {
         return (
-         <img className = "playing-pile playing-pile--1" src="https://upload.wikimedia.org/wikipedia/commons/5/54/Card_back_06.svg" alt = "back of card"/>
+         <img className = "playing-pile playing-pile--1" src={card_img} alt = "back of card"/>
         )
       }
     };
@@ -351,7 +352,7 @@ class App extends React.Component{
         return null
       } else if (this.state.playerTwoPile.length  >= 2){
         return (
-          <img className = " playing-pile playing-pile--2" src="https://upload.wikimedia.org/wikipedia/commons/5/54/Card_back_06.svg" alt = "back of card"/>
+          <img className = " playing-pile playing-pile--2" src={card_img} alt = "back of card"/>
         )
       }
     };
@@ -361,7 +362,7 @@ class App extends React.Component{
         return null
       } else  {
         return (
-          <img className = "playing-deck playing-deck--1" src="https://upload.wikimedia.org/wikipedia/commons/5/54/Card_back_06.svg" alt = "back of card"/>
+          <img className = "playing-deck playing-deck--1" src={card_img} alt = "back of card"/>
           )
       }
     };
@@ -371,27 +372,31 @@ class App extends React.Component{
         return null
       } else {
         return (
-           <img className = "playing-deck playing-deck--2"src="https://upload.wikimedia.org/wikipedia/commons/5/54/Card_back_06.svg" alt = "back of card"/>
+           <img className = "playing-deck playing-deck--2" src={card_img} alt = "back of card"/>
           )
       }
     };
     
     return (
       <div className = "container">
+
+        <div className = 'playing-pile-area'>
+         
+         <h1 className= "playing-pile-text playing-pile-text--1">Player One Pile {this.state.playerOnePile.length}</h1>
+         {renderPileLogicPlayer1()}
+         <h1 className= "playing-pile-text playing-pile-text--2">Player Two Pile {this.state.playerTwoPile.length}</h1>
+         {renderPileLogicPlayer2()}
+       
+        </div>
+
         <div className = "playing-area">
-          
+    
             {renderCardsLogic()}
             <h3 className = "playing-area-text">{showRoundWin()}</h3>
           
         </div>
-        <div className = 'playing-pile-area'>
-         
-            <h1 className= "playing-pile-text playing-pile-text--1">Player One Pile {this.state.playerOnePile.length}</h1>
-            {renderPileLogicPlayer1()}
-            <h1 className= "playing-pile-text playing-pile-text--2">Player Two Pile {this.state.playerTwoPile.length}</h1>
-            {renderPileLogicPlayer2()}
-          
-        </div>
+
+
         <div className = 'playing-deck-area'>
           
           <h1 className= "playing-deck-text playing-deck-text--1" >Player One Deck {this.state.playerOneDeck.length}</h1>
@@ -402,6 +407,7 @@ class App extends React.Component{
           <button className = "btn war-button" onClick = {this.changeCard} >Time to War</button>
           
         </div>
+
         <div className="rule-text">
           <h1>Note: This game will have bugs over time when you continue to play the game</h1>
         </div>
